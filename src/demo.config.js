@@ -1,20 +1,20 @@
 export const DEMO_CONFIG = {
   studio: {
     name: "All Heart Yoga",
-    tagline: "Yoga for your body, mind, heart",
+    tagline: "Boutique yoga studio -- NW Portland",
     logo: "A",
   },
   accent: "hsl(348, 45%, 58%)",
   accentDark: "hsl(348, 45%, 44%)",
   features: [
-    { label: "Class Scheduling", description: "15+ class styles from Energizing Flow to Yoga Nidra" },
-    { label: "Practice Tracking", description: "Streaks, milestones, and post-practice reflections" },
-    { label: "Community Feed", description: "Celebrate milestones and share your journey" },
-    { label: "Teacher Profiles", description: "7 instructors with bios, certs, and specialties" },
-    { label: "Membership Tiers", description: "Unlimited, class packs, Community Care pricing" },
-    { label: "Events & Workshops", description: "Sound baths, grief circles, Constellations, Nidra" },
-    { label: "Smart Notifications", description: "Class reminders, waitlist updates, announcements" },
-    { label: "Admin Dashboard", description: "Analytics, member management, broadcast tools" },
+    { icon: "CalendarDays", label: "Class Scheduling", description: "15+ class styles from Energizing Flow to Yoga Nidra" },
+    { icon: "TrendingUp", label: "Practice Tracking", description: "Streaks, milestones, and post-practice reflections" },
+    { icon: "Heart", label: "Community Feed", description: "Celebrate milestones and share your journey" },
+    { icon: "Users", label: "Teacher Profiles", description: "7 instructors with bios, certs, and specialties" },
+    { icon: "CreditCard", label: "Membership Tiers", description: "Unlimited, class packs, Community Care pricing" },
+    { icon: "Sparkles", label: "Events & Workshops", description: "Sound baths, grief circles, Constellations, Nidra" },
+    { icon: "Bell", label: "Smart Notifications", description: "Class reminders, waitlist updates, announcements" },
+    { icon: "LayoutDashboard", label: "Admin Dashboard", description: "Analytics, member management, broadcast tools" },
   ],
   salesCards: [
     {
@@ -30,7 +30,7 @@ export const DEMO_CONFIG = {
     {
       title: "All-in-One Platform",
       description: "Handles booking, payments, and member management natively. No third-party software needed. Replace Momence with a branded experience your community will love.",
-      icon: "Layers",
+      icon: "MapPin",
     },
     {
       title: "Member Engagement",

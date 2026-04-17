@@ -187,16 +187,16 @@ const ADMIN_CHARTS = {
 // ===================================================================
 const AppContext = createContext();
 
-function PageHero({ title, subtitle, img, gradient }) {
+function PageHero({ title, subtitle, img, gradient, tall }) {
   const fallbackGrad = gradient || `linear-gradient(135deg, ${T.bg}, hsl(340,15%,18%), hsl(155,15%,16%))`;
   const bg = img ? `url(${img}), ${fallbackGrad}` : fallbackGrad;
   return (
-    <div style={{ position: "relative", minHeight: 220, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "24px 20px 20px", marginBottom: 16, overflow: "hidden" }}>
-      <div style={{ position: "absolute", inset: 0, background: bg, backgroundSize: "cover", backgroundPosition: "center", filter: img ? "brightness(0.7)" : "none" }} />
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.45) 100%)" }} />
+    <div style={{ position: "relative", minHeight: tall ? 300 : 220, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: tall ? "40px 20px 20px" : "24px 20px 20px", marginBottom: 16, overflow: "hidden" }}>
+      <div style={{ position: "absolute", inset: 0, background: bg, backgroundSize: "cover", backgroundPosition: "center", filter: img ? "brightness(0.75)" : "none" }} />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.04) 50%, rgba(0,0,0,0.35) 100%)" }} />
       <div style={{ position: "relative", zIndex: 1, color: "#fff" }}>
         <h1 style={{ fontFamily: DF, fontSize: "3.5rem", margin: "0 0 6px", lineHeight: 1.05, fontWeight: 700 }}>{title}</h1>
-        {subtitle && <p style={{ fontSize: 14, color: "rgba(255,255,255,0.8)", margin: 0, lineHeight: 1.4, maxWidth: "85%" }}>{subtitle}</p>}
+        {subtitle && <p style={{ fontSize: 14, color: "rgba(255,255,255,0.85)", margin: 0, lineHeight: 1.4, maxWidth: "95%" }}>{subtitle}</p>}
       </div>
     </div>
   );
@@ -324,7 +324,7 @@ function HomePage() {
   const now = new Date(); const cm = now.getHours() * 60 + now.getMinutes();
   const upcoming = CLASSES_TODAY.filter(c => { const [h, m] = c.time.split(":").map(Number); return h * 60 + m > cm; });
   return (<div>
-    <PageHero title={<>{SC.heroLine1} <span style={{ color: T.accent }}>{SC.heroLine2}</span></>} subtitle={SC.description} img={IMG.home} />
+    <PageHero title={<>{SC.heroLine1} <span style={{ color: T.accent }}>{SC.heroLine2}</span></>} subtitle={SC.description} img={IMG.home} tall />
     <section style={{ padding: "20px 16px 0" }}><SH title="Today's Practice" linkText="All Classes" linkPage="classes" /><PCard practice={TODAYS_FOCUS} expanded onToggle={() => {}} /></section>
     <section style={{ padding: "0 16px", marginTop: 24 }}>
       <SH title="Up Next" linkText="Full Schedule" linkPage="schedule" />
@@ -465,8 +465,8 @@ export default function App({ startInAdmin, onExitAdmin, onEnterAdmin }) {
   const openRes = useCallback((d) => setResClass(d), []);
   const celFeed = useCallback((id) => setFeedCel(p => ({ ...p, [id]: (p[id] || 0) + 1 })), []);
 
-  const mainTabs = [{ id: "home", label: "Home", icon: Home }, { id: "schedule", label: "Schedule", icon: CalendarDays }, { id: "practice", label: "Practice", icon: TrendingUp }, { id: "more", label: "More", icon: Menu }];
-  const moreItems = [{ id: "classes", label: "Classes", icon: Calendar }, { id: "teachers", label: "Teachers", icon: Users }, { id: "membership", label: "Pricing", icon: CreditCard }, { id: "events", label: "Events", icon: PartyPopper }, { id: "community", label: "Community", icon: Heart }, { id: "rewards", label: "Heart Points", icon: Gift }];
+  const mainTabs = [{ id: "home", label: "Home", icon: Home }, { id: "schedule", label: "Schedule", icon: CalendarDays }, { id: "practice", label: "Practice", icon: TrendingUp }, { id: "community", label: "Community", icon: Heart }, { id: "more", label: "More", icon: Menu }];
+  const moreItems = [{ id: "classes", label: "Classes", icon: Calendar }, { id: "teachers", label: "Teachers", icon: Users }, { id: "events", label: "Events", icon: PartyPopper }, { id: "membership", label: "Membership", icon: CreditCard }, { id: "settings", label: "Settings", icon: Settings }];
   const adminTabs = [{ id: "admin-dashboard", label: "Dashboard", icon: LayoutDashboard }, { id: "admin-members", label: "Members", icon: Users }, { id: "admin-schedule", label: "Schedule", icon: CalendarDays }, { id: "admin-teachers", label: "Teachers", icon: UserCheck }, { id: "admin-events", label: "Events", icon: PartyPopper }, { id: "admin-pricing", label: "Pricing", icon: CreditCard }, { id: "admin-comms", label: "Broadcast", icon: Megaphone }, { id: "admin-settings", label: "Settings", icon: Settings }];
   const isMoreActive = moreItems.some(item => item.id === page);
 
@@ -480,7 +480,7 @@ export default function App({ startInAdmin, onExitAdmin, onEnterAdmin }) {
       case "teachers": return <TeachersPage />;
       case "membership": return <MembershipPage />;
       case "events": return <EventsPage />;
-      case "rewards": return (<div><PageHero title="Heart Points" subtitle="Earn points, share the love" gradient={`linear-gradient(135deg, hsl(348,40%,24%), hsl(155,18%,16%))`} /><div style={{ padding: "20px 16px 0" }}><div style={{ background: `linear-gradient(135deg, ${T.bg}, hsl(340,15%,18%))`, borderRadius: 16, padding: "24px 20px", color: "#fff", marginBottom: 16 }}><p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: T.accent, margin: "0 0 8px" }}>Your Hearts</p><div style={{ fontFamily: DF, fontSize: 48, fontWeight: 700 }}>820</div><p style={{ fontSize: 13, color: "#b8a0a8", margin: "4px 0 0" }}>30 points to next reward</p></div><div style={{ display: "flex", flexDirection: "column", gap: 10 }}>{[{ pts: 500, reward: "Free Guest Pass", icon: UserPlus }, { pts: 850, reward: "10% Off Workshop", icon: Award }, { pts: 1200, reward: "Free Private Session Upgrade", icon: Gift }, { pts: 2000, reward: "Community Care Donation", icon: Heart }].map((r, i) => (<div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", background: T.bgCard, border: `1px solid ${T.border}`, borderRadius: 12 }}><div style={{ width: 40, height: 40, borderRadius: 10, background: T.accentGhost, display: "flex", alignItems: "center", justifyContent: "center" }}><r.icon size={20} color={T.accent} /></div><div style={{ flex: 1 }}><p style={{ fontWeight: 600, fontSize: 14, margin: 0, color: T.text }}>{r.reward}</p><p style={{ fontSize: 12, color: T.textMuted, margin: "2px 0 0" }}>{r.pts} points</p></div><button style={{ padding: "6px 14px", borderRadius: 8, border: "none", fontSize: 12, fontWeight: 700, cursor: r.pts <= 820 ? "pointer" : "default", background: r.pts <= 820 ? T.accent : T.bgDim, color: r.pts <= 820 ? "#fff" : T.textFaint }}>{r.pts <= 820 ? "Redeem" : "Locked"}</button></div>))}</div></div></div>);
+      case "settings": return (<div><PageHero title="Settings" subtitle="Studio info and preferences" gradient={`linear-gradient(135deg, hsl(348,40%,24%), hsl(155,18%,16%))`} /><div style={{ padding: "20px 16px 0", display: "flex", flexDirection: "column", gap: 10 }}>{[{ icon: MapPin, label: SC.address.street, sub: `${SC.address.city}, ${SC.address.state} ${SC.address.zip}` }, { icon: Clock, label: "Mon-Fri: 6:30 AM - 8:30 PM", sub: "Sat-Sun: 9:00 AM - 12:15 PM" }, { icon: Share2, label: SC.social.instagram, sub: "Follow us on Instagram" }, { icon: Gift, label: "Heart Points", sub: "Earn points with every class" }, { icon: Heart, label: "Community Care", sub: "Reduced rates for SNAP/WIC participants" }].map((item, i) => (<div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", background: T.bgCard, border: `1px solid ${T.border}`, borderRadius: 12 }}><item.icon size={20} color={T.accent} /><div><p style={{ fontWeight: 600, fontSize: 14, margin: 0, color: T.text }}>{item.label}</p><p style={{ fontSize: 12, color: T.textMuted, margin: "2px 0 0" }}>{item.sub}</p></div></div>))}</div></div>);
       case "admin-dashboard": return <AdminDashboard />;
       case "admin-members": return <AdminMembersPage />;
       case "admin-schedule": return <AdminSchedulePage />;
